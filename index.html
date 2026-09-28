@@ -222,6 +222,17 @@ body.inquiz .confirm{padding:14px;margin-top:8px}
 body.inquiz .confirm p{margin-bottom:10px}
 @media (max-width:520px){body.inquiz .q{font-size:16px}body.inquiz .card{padding:12px 14px}body.inquiz .opts{grid-template-columns:minmax(0,1fr)}body.inquiz .opts.short{grid-template-columns:repeat(2,minmax(0,1fr))}body.inquiz .opts.grid{grid-template-columns:1fr}body.inquiz .opt{padding:6px 10px}}
 .opt,.opt .body{min-width:0}.opt .body{overflow-wrap:anywhere}
+.histwrap{margin:22px 0 0}
+.histhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:0 6px 8px}
+.histhead h3{margin:0;font-size:17px;font-weight:700}
+.histhead span{color:var(--muted);font-size:14px}
+.histwrap .hist{margin:0}
+.hist li{flex-wrap:wrap;row-gap:2px}
+.hist .n{min-width:0;overflow-wrap:anywhere}
+.hist .sc{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hist .tm{color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.hist li.more{justify-content:center}
+.hist li.more button{border:none;background:none;color:var(--accent);font-weight:600;padding:4px 10px;cursor:pointer}
 .credit{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
 svg text{font-family:var(--sans);fill:var(--ink)}
 svg .mut{fill:var(--muted)}
@@ -540,7 +551,7 @@ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
 const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const $=id=>document.getElementById(id);
 const show=which=>{["home","quiz","result","mist","review"].forEach(k=>$(k).hidden=k!==which);document.querySelector("header.top").classList.toggle("inquiz",which==="quiz");document.body.classList.toggle("inquiz",which==="quiz");window.scrollTo({top:0})};
-let tick=null;
+let tick=null,HISTN=6;
 const wrongKeys=b=>Object.keys(st.wrong).filter(k=>{try{return !!getQ(k)&&(!b||k.split(":")[0]===b)}catch(e){return false}});
 const isMist=b=>b.startsWith("mistakes");
 const baseOf=b=>b.includes(":")?b.split(":")[1]:b;
@@ -714,9 +725,14 @@ function home(){
     h+=`</div><button class="mbtn" data-m="${key}">My mistakes <b>${nw}</b></button></section>`;
   }
   h+=`</div>`;
-  if(st.history.length)h+=`<ul class="hist">${st.history.slice(0,6).map(x=>`<li><span class="n">${esc(BANKS[x.bank].name)}</span><span>${x.score} / ${x.total}</span><span style="color:var(--muted)">${x.sec/60|0} min${x.timed?"":" · no timer"}</span></li>`).join("")}</ul>`;
+  if(st.history.length){
+    const row=x=>`<li><span class="n">${esc(BANKS[x.bank]?BANKS[x.bank].name:x.bank)}</span><span class="sc">${x.score} / ${x.total}</span><span class="tm">${mmss(x.sec)}${x.timed?"":" · no timer"}</span></li>`;
+    const all=st.history.filter(x=>BANKS[x.bank]);
+    h+=`<div class="histwrap"><div class="histhead"><h3>Your quizzes</h3><span>${all.length} taken</span></div><ul class="hist">${all.slice(0,HISTN).map(row).join("")}${all.length>HISTN?`<li class="more"><button id="histmore">Show all ${all.length}</button></li>`:""}</ul></div>`;
+  }
   h+=`<div class="actions" style="margin-top:14px"><button class="ghost" id="reset">Reset progress</button></div>`;
   $("home").innerHTML=h;show("home");
+  const hm=$("histmore");if(hm)hm.onclick=()=>{HISTN=1e9;home()};
   $("home").querySelectorAll("[data-b]").forEach(b=>b.onclick=()=>{
     if(st.active&&!b.dataset.confirm){b.dataset.confirm=1;b.textContent="Tap again: discard the unfinished quiz";return}
     start(b.dataset.b,b.dataset.t==="1");
