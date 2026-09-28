@@ -127,7 +127,12 @@ table.t tr.tot td{font-weight:700;background:var(--accent-soft)}
 .qimg{display:block;width:100%;max-width:760px;height:auto;border-radius:18px;margin:4px 0 20px;background:#fff}
 
 .opts{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,240px),1fr))}
-.opts.grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.opts.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr))}
+.opts.grid .opt{align-items:flex-start}
+.opt .body table.t{min-width:0;width:100%;margin:0;font-size:14px}
+.opt .body table.t th,.opt .body table.t td{padding:5px 10px}
+.opt .body table.t td{background:var(--surface)}
+.opt.sel .body table.t tr.tot td{background:var(--surface)}
 .opts.letters{grid-template-columns:repeat(auto-fill,minmax(64px,1fr))}
 .opts.letters .opt{justify-content:center;padding:10px}
 .opt{display:flex;gap:14px;align-items:center;width:100%;min-height:62px;text-align:left;border:2px solid transparent;background:var(--surface-2);color:var(--ink);border-radius:20px;padding:12px 16px;transition:background .15s,border-color .15s,transform .1s}
@@ -138,8 +143,8 @@ table.t tr.tot td{font-weight:700;background:var(--accent-soft)}
 .opt .body svg{max-width:100%;height:auto;display:block}
 .opt:disabled{cursor:default}
 .opt:disabled:not(.right):not(.wrong){opacity:.55}
-.opt.sel{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.opt.sel .L{background:var(--accent-ink);color:var(--accent)}
+.opt.sel{background:var(--accent-soft);color:var(--ink);border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.opt.sel .L{background:var(--accent);color:var(--accent-ink)}
 .opt.right{background:var(--good-soft);border-color:var(--good)}
 .opt.right .L{background:var(--good);color:var(--surface)}
 .opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
@@ -174,6 +179,10 @@ table.t tr.tot td{font-weight:700;background:var(--accent-soft)}
 .review .tag{display:inline-block;font-size:13px;font-weight:700;padding:2px 10px;border-radius:999px;margin-inline-end:8px}
 .review .ok{color:var(--good);background:var(--good-soft)} .review .no{color:var(--bad);background:var(--bad-soft)}
 .review small{display:block;color:var(--muted);margin-top:3px;font-size:13px;font-weight:400}
+.done{background:var(--t1);border-radius:24px;padding:20px 22px;margin:0 0 22px}
+.done h3{margin:0 0 4px;font-size:20px;font-weight:700}
+.done p{margin:0 0 16px;color:var(--muted);font-size:15px;text-wrap:pretty}
+.bank .note{display:block;margin:-12px 0 16px;font-size:14px;font-weight:500;color:var(--ink)}
 .end{margin-top:28px;background:var(--surface);border-radius:28px;padding:28px;text-align:center}
 .end .big{font-size:44px;font-weight:700}
 .maker{margin:14px auto 0!important;font-size:14.5px;color:var(--muted)}
@@ -208,12 +217,12 @@ body.inquiz .opt{min-height:44px;padding:7px 12px;border-radius:16px;gap:10px}
 body.inquiz .opt .L{width:28px;height:28px;font-size:13px}
 body.inquiz .opt .body{font-size:15.5px}
 body.inquiz .opt .body svg{max-height:24vh;width:auto;margin-inline:auto}
-body.inquiz .opt .body table.t{font-size:12.5px}
+body.inquiz .opt .body table.t{font-size:12.5px}body.inquiz .opt .body table.t th,body.inquiz .opt .body table.t td{padding:3px 8px}
 body.inquiz .nav{margin-top:2px}
 body.inquiz .nav .ghost,body.inquiz .nav .primary{min-height:44px;padding-block:8px}
 body.inquiz .confirm{padding:14px;margin-top:8px}
 body.inquiz .confirm p{margin-bottom:10px}
-@media (max-width:520px){body.inquiz .q{font-size:16px}body.inquiz .card{padding:12px 14px}body.inquiz .opts{grid-template-columns:1fr 1fr}body.inquiz .opt{padding:6px 10px}}
+@media (max-width:520px){body.inquiz .q{font-size:16px}body.inquiz .card{padding:12px 14px}body.inquiz .opts{grid-template-columns:1fr 1fr}body.inquiz .opts.grid{grid-template-columns:1fr}body.inquiz .opt{padding:6px 10px}}
 .credit{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
 svg text{font-family:var(--sans);fill:var(--ink)}
 svg .mut{fill:var(--muted)}
@@ -238,7 +247,7 @@ svg .mut{fill:var(--muted)}
   <header class="top">
     <div class="toprow"><h1>مراجعة الكويز الأول: مبادئ الإحصاء في الإدارة</h1><button class="themebtn" id="themebtn" aria-label="تبديل الوضع">الوضع النهاري</button></div>
     <p>٥٤ سؤال من مراجعة الكويز الأول. كل اختبار ٦ أسئلة ومدته ٢٠ دقيقة، والإجابات تظهر بعد التسليم، والأسئلة اللي تخطئ فيها تنحفظ في أخطائي.</p>
-    <p class="maker">صنع بكل حب وود من خلال: <a href="https://t.me/ii8lkk" target="_blank" rel="noopener"><bdi dir="ltr">Knight</bdi><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M21.4 4.3 18.3 19c-.2 1-.8 1.3-1.7.8l-4.6-3.4-2.2 2.1c-.3.3-.5.5-1 .5l.3-4.7 8.6-7.8c.4-.3-.1-.5-.6-.2L6.5 13 2 11.6c-1-.3-1-1 .2-1.5L20 3.2c.8-.3 1.6.2 1.4 1.1z"/></svg></a></p>
+    <p class="maker" dir="rtl">صنع بكل حب وود من خلال: <a href="https://t.me/ii8lkk" target="_blank" rel="noopener" dir="ltr"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M21.4 4.3 18.3 19c-.2 1-.8 1.3-1.7.8l-4.6-3.4-2.2 2.1c-.3.3-.5.5-1 .5l.3-4.7 8.6-7.8c.4-.3-.1-.5-.6-.2L6.5 13 2 11.6c-1-.3-1-1 .2-1.5L20 3.2c.8-.3 1.6.2 1.4 1.1z"/></svg><bdi dir="ltr">Knight</bdi></a></p>
   </header>
 
   <section id="home" class="panel"></section>
@@ -536,6 +545,21 @@ const isMist=b=>b.startsWith("mistakes");
 const baseOf=b=>b.includes(":")?b.split(":")[1]:b;
 const isRight=(q,c)=>Array.isArray(q.a)?q.a.includes(c):c===q.a;
 const ansSet=q=>Array.isArray(q.a)?q.a:[q.a];
+const bankDone=b=>!isMist(b)&&BANKS[b]&&(st.seen[b]||[]).length>=BANKS[b].list.length;
+function restartBank(b,timed,keep){
+  st.seen[b]=[];
+  if(!keep)Object.keys(st.wrong).forEach(k=>{if(k.split(":")[0]===b)delete st.wrong[k]});
+  st.active=null;save();start(b,timed);
+}
+function restartHTML(b,nw){
+  return `<button class="primary" data-rs="keep">Start over · keep mistakes${nw?` (${nw})`:""}</button><button class="ghost bordered" data-rs="clear">Start over · clear mistakes</button>`;
+}
+function wireRestart(scope,b,timed){
+  scope.querySelectorAll("[data-rs]").forEach(x=>x.onclick=()=>{
+    if(x.dataset.rs==="clear"&&!x.dataset.confirm){x.dataset.confirm=1;x.textContent="Tap again: erase all mistakes";return}
+    restartBank(b,timed,x.dataset.rs==="keep");
+  });
+}
 const permFor=q=>q.letters?[...Array(q.o.length).keys()]:shuf([...Array(q.o.length).keys()]);
 
 function qHTML(q,perm,chosen,reveal){
@@ -563,6 +587,7 @@ function qHTML(q,perm,chosen,reveal){
 function pickNew(bank){
   const all=BANKS[bank].list.map((_,i)=>i);let seen=st.seen[bank]||[];
   let unseen=shuf(all.filter(i=>!seen.includes(i)));
+  if(unseen.length)return unseen.slice(0,PER);
   if(unseen.length<PER){
     const fresh=shuf(all.filter(i=>!unseen.includes(i)));
     st.seen[bank]=[];
@@ -597,7 +622,8 @@ function updTimer(){
 function bankLabel(b){return isMist(b)?(b.includes(":")?"My mistakes · "+BANKS[baseOf(b)].name:"My mistakes"):BANKS[b].name}
 function renderQ(){
   const a=st.active,i=a.idx,n=a.keys.length;
-  $("qpos").textContent=`${bankLabel(a.bank)} · Question ${i+1} of ${n}`;
+  const lastQuiz=!isMist(a.bank)&&bankDone(a.bank);
+  $("qpos").textContent=`${bankLabel(a.bank)}${lastQuiz?" · Last quiz":""} · Question ${i+1} of ${n}`;
   $("pg").style.width=(Object.keys(a.ans).length/n*100)+"%";
   $("qcard").innerHTML=qHTML(getQ(a.keys[i]),a.perm[i],a.ans[i],false);
   const nx=$("next");nx.disabled=a.ans[i]===undefined;nx.textContent=i===n-1?"Submit":"Next";
@@ -613,7 +639,7 @@ $("next").onclick=()=>{
   if(a.idx<a.keys.length-1){a.idx++;save();renderQ();window.scrollTo({top:0})}
   else{
     const got=Object.keys(a.ans).length;
-    $("confirmtxt").textContent=`You answered ${got} of ${a.keys.length}. You cannot change your answers after submitting.`;
+    $("confirmtxt").textContent=`You answered ${got} of ${a.keys.length}. You cannot change your answers after submitting.${bankDone(a.bank)?" This is the last quiz in the bank.":""}`;
     $("confirm").hidden=false;$("confirm").scrollIntoView({block:"nearest"});
   }
 };
@@ -637,12 +663,15 @@ function result(){
   const R=st.last;if(!R)return home();
   const n=R.rows.length,base=isMist(R.bank)?(R.bank.includes(":")?baseOf(R.bank):undefined):R.bank,nw=wrongKeys(base).length;
   let h=`<h2>${R.timeUp?"Time is up":"Submitted"} · ${esc(bankLabel(R.bank))}</h2><p class="sub">${R.used/60|0} min ${R.used%60} s · tap any question to see it in full</p>`;
+  const done=!isMist(R.bank)&&bankDone(R.bank);
+  if(done)h+=`<div class="done"><h3>You finished all ${BANKS[R.bank].list.length} questions</h3><p>That was the last quiz in this bank. The questions will start over from the beginning. Do you want to keep your saved mistakes or clear them?</p><div class="actions">${restartHTML(R.bank,nw)}</div></div>`;
   h+=`<div class="stats"><div><b>${R.score} / ${n}</b><span>correct</span></div><div><b>${nw}</b><span>in this section's mistakes</span></div></div>`;
   h+=`<ul class="review">${R.rows.map((r,i)=>{const q=getQ(r.k),ok=isRight(q,r.c);return`<li><button data-i="${i}"><span class="tag ${ok?"ok":"no"}">${ok?"✓":"✗"} Q${i+1}</span> ${esc(q.tp||"")}<small>${r.c===undefined?"Not answered":ok?"Correct":"Wrong"}</small></button></li>`}).join("")}</ul>`;
-  h+=`<div class="actions">${!isMist(R.bank)?`<button class="primary" id="again">Next quiz</button>`:""}${nw?`<button class="${isMist(R.bank)?"primary":"ghost"}" id="pm">Practice my mistakes</button>`:""}<button class="ghost" id="home2">Home</button></div>`;
+  h+=`<div class="actions">${!isMist(R.bank)&&!done?`<button class="primary" id="again">Next quiz</button>`:""}${nw?`<button class="${isMist(R.bank)?"primary":"ghost"}" id="pm">Practice my mistakes</button>`:""}<button class="ghost" id="home2">Home</button></div>`;
   $("result").innerHTML=h;show("result");
   $("result").querySelectorAll(".review button").forEach(b=>b.onclick=()=>{const r=R.rows[+b.dataset.i];review(r.k,r.perm,r.c,result)});
   const ag=$("again");if(ag)ag.onclick=()=>start(R.bank,R.timed);
+  if(done)wireRestart($("result"),R.bank,R.timed);
   $("home2").onclick=home;
   const pm=$("pm");if(pm)pm.onclick=()=>start(base?"mistakes:"+base:"mistakes",true);
 }
@@ -672,10 +701,13 @@ function home(){
   h+=`<div class="banks">`;
   for(const [key,B] of Object.entries(BANKS)){
     const left=B.list.length-(st.seen[key]||[]).length,done=st.history.filter(x=>x.bank===key).length;
-    h+=`<section class="bank"><h2>${esc(B.name)}</h2><p class="sub">${B.list.length} questions · ${left} not seen yet · ${done} quizzes taken</p><div class="actions">`;
+    const nw=wrongKeys(key).length,fin=left<=0&&!st.active;
+    h+=`<section class="bank" data-bank="${key}"><h2>${esc(B.name)}</h2><p class="sub">${B.list.length} questions · ${Math.max(0,left)} not seen yet · ${done} quizzes taken</p>${fin?`<span class="note">You finished every question. Start over to go through the bank again.</span>`:""}<div class="actions">`;
+    if(fin)h+=restartHTML(key,nw);
+    else{
     h+=B.timed.includes(true)?`<button class="primary" data-b="${key}" data-t="1">Start · ${MINUTES} min</button>`:"";
     h+=B.timed.includes(false)?`<button class="ghost bordered" data-b="${key}" data-t="0">Start · no timer</button>`:"";
-    const nw=wrongKeys(key).length;
+    }
     h+=`</div><button class="mbtn" data-m="${key}">My mistakes <b>${nw}</b></button></section>`;
   }
   h+=`</div>`;
@@ -686,6 +718,7 @@ function home(){
     if(st.active&&!b.dataset.confirm){b.dataset.confirm=1;b.textContent="Tap again: discard the unfinished quiz";return}
     start(b.dataset.b,b.dataset.t==="1");
   });
+  $("home").querySelectorAll("[data-bank]").forEach(sec=>wireRestart(sec,sec.dataset.bank,BANKS[sec.dataset.bank].timed.includes(true)));
   const r=$("resume");if(r)r.onclick=()=>(!st.active.timed||remaining()>0)?runQuiz():finish(true);
   $("home").querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>mistakes(b.dataset.m));
   const x=$("reset");x.onclick=()=>{
