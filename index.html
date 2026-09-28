@@ -220,7 +220,8 @@ body.inquiz .nav{margin-top:2px}
 body.inquiz .nav .ghost,body.inquiz .nav .primary{min-height:44px;padding-block:8px}
 body.inquiz .confirm{padding:14px;margin-top:8px}
 body.inquiz .confirm p{margin-bottom:10px}
-@media (max-width:520px){body.inquiz .q{font-size:16px}body.inquiz .card{padding:12px 14px}body.inquiz .opts{grid-template-columns:1fr 1fr}body.inquiz .opts.grid{grid-template-columns:1fr}body.inquiz .opt{padding:6px 10px}}
+@media (max-width:520px){body.inquiz .q{font-size:16px}body.inquiz .card{padding:12px 14px}body.inquiz .opts{grid-template-columns:minmax(0,1fr)}body.inquiz .opts.short{grid-template-columns:repeat(2,minmax(0,1fr))}body.inquiz .opts.grid{grid-template-columns:1fr}body.inquiz .opt{padding:6px 10px}}
+.opt,.opt .body{min-width:0}.opt .body{overflow-wrap:anywhere}
 .credit{margin-top:40px;color:var(--muted);font-size:13px;text-align:center}
 svg text{font-family:var(--sans);fill:var(--ink)}
 svg .mut{fill:var(--muted)}
@@ -567,7 +568,8 @@ function qHTML(q,perm,chosen,reveal){
   let h=`<div class="meta"><span class="lvl ${q.lv||""}">${q.lv||""}</span><span class="topic">${esc(q.tp||"")}</span></div>`;
   if(q.img)h+=`<img class="qimg" src="${q.img}" width="${q.iw}" height="${q.ih}" alt="${esc(q.tp||"Question")}">`;
   else{h+=`<p class="q">${esc(q.q)}</p>`;if(q.fig)h+=`<div class="fig">${q.fig()}</div>`}
-  h+=`<div class="opts${q.letters?' letters':q.grid?' grid':''}">`;
+  const shortOpts=!q.grid&&!q.letters&&q.o.every(o=>typeof o==="string"&&o.length<=18);
+  h+=`<div class="opts${q.letters?' letters':q.grid?' grid':''}${shortOpts?' short':''}">`;
   perm.forEach((oi,pos)=>{
     const o=q.o[oi];
     const cls=reveal?(ansSet(q).includes(oi)?" right":oi===chosen?" wrong":""):(oi===chosen?" sel":"");
